@@ -1,13 +1,16 @@
 package biblioteca.gestao.api.domain.emprestimos;
 
+import java.time.LocalDate;
+
+// DTO para detalhar um emprestimo
 public record DadosDetalhadosEmprestimo(
         Long id,
         Long usuarioId,
         Long livroId,
         String nomeUsuario,
         String tituloLivro,
-        String dataEmprestimo,
-        String dataDevolucao) {
+        LocalDate dataEmprestimo,
+        LocalDate dataDevolucao) {
 
     public DadosDetalhadosEmprestimo(Emprestimo emprestimo) {
         this(
@@ -16,8 +19,8 @@ public record DadosDetalhadosEmprestimo(
                 emprestimo.getLivro().getId(),
                 emprestimo.getUsuario().getNome(),
                 emprestimo.getLivro().getTitulo(),
-                emprestimo.getDataEmprestimo().toString(),
-                emprestimo.getDataDevolucao() != null ? emprestimo.getDataDevolucao().toString() : null);
+                emprestimo.getDataEmprestimo(),
+                emprestimo.getDataDevolucao());
     }
 
 }

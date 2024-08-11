@@ -20,11 +20,13 @@ import biblioteca.gestao.api.domain.livros.DadosDetalhadosLivros;
 import biblioteca.gestao.api.domain.livros.DadosLivros;
 import biblioteca.gestao.api.domain.livros.Livro;
 import biblioteca.gestao.api.domain.livros.LivroRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/livros")
+@SecurityRequirement(name = "bearer-key")
 public class LivrosController {
 
     // Injeção de dependências
@@ -39,6 +41,7 @@ public class LivrosController {
         Livro livro = new Livro(dados);
         repository.save(livro);
 
+        // cria a URI para o novo livro
         var uri = uriBuilder.path("/livros/{id}").buildAndExpand(livro.getId()).toUri();
 
         // retorna o status 201 Created e o novo livro
@@ -52,6 +55,10 @@ public class LivrosController {
     public ResponseEntity<Page<Livro>> listarLivro(
             @PageableDefault(size = 10, sort = { "titulo" }) Pageable paginacao) {
         var page = repository.findAllByAtivoTrue(paginacao);
+
+        if (page.isEmpty()) { // se a lista de livros estiver vazia retorna o status 204 No Content
+            return ResponseEntity.noContent().build();
+        }
 
         // retorna o status 200 OK e a lista de livros
         return ResponseEntity.ok(page);
@@ -82,12 +89,28 @@ public class LivrosController {
     }
 
     // buscar um livro no banco de dados pelo id
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<DadosDetalhadosLivros> buscarLivro(@PathVariable Long id) {
         Livro livro = repository.findByIdAndAtivoTrue(id);
 
         // retorna o status 200 OK e o livro buscado
         return ResponseEntity.ok(new DadosDetalhadosLivros(livro));
+    }
+
+    // buscar um Livro no banco de dados pelo nome
+    @GetMapping("/titulo/{titulo}")
+    public ResponseEntity<Page<DadosDetalhadosLivros>> buscarLivroNome(
+            @PathVariable String titulo,
+            @PageableDefault(size = 10, sort = { "titulo" }) Pageable paginacao) {
+
+        // Busca a página de Livros
+        Page<Livro> livros = repository.findByTituloAndAtivoTrue(titulo, paginacao);
+
+        // Transforma a página de Livro em uma página de DadosDetalhadosLivros
+        Page<DadosDetalhadosLivros> page = livros.map(DadosDetalhadosLivros::new);
+
+        // Retorna o status 200 OK e a página de DadosDetalhadosLivros
+        return ResponseEntity.ok(page);
     }
 
 }

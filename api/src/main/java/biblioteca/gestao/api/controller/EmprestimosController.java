@@ -25,11 +25,13 @@ import biblioteca.gestao.api.domain.livros.Livro;
 import biblioteca.gestao.api.domain.livros.LivroRepository;
 import biblioteca.gestao.api.domain.usuarios.Usuario;
 import biblioteca.gestao.api.domain.usuarios.UsuarioRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 
 // Controller para os empréstimos
 @RestController
 @RequestMapping("/emprestimos")
+@SecurityRequirement(name = "bearer-key")
 public class EmprestimosController {
 
     // Injeção de dependências
@@ -80,8 +82,8 @@ public class EmprestimosController {
     }
 
     // buscar um emprestimo no banco de dados pelo id
-    @GetMapping("/{id}")
-    public ResponseEntity<Emprestimo> buscarEmprestimo(@PathVariable Long id) {
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Emprestimo> buscarEmprestimoId(@PathVariable Long id) {
         var busca = emprestimoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Empréstimo não encontrado."));
 
@@ -90,7 +92,7 @@ public class EmprestimosController {
     }
 
     // listar os emprestimos devolvidos
-    @GetMapping("/devolvidos") // paginação padrão de 10 em 10 e ordenado pelo id dos empréstimos
+    @GetMapping("/devolvidos") // paginação padrão de 10 em 10 e ordenação pelo id dos empréstimos
     public ResponseEntity<Page<Emprestimo>> listarEmprestimosDevolvidos(
             @PageableDefault(size = 10, sort = { "id" }) Pageable paginacao) {
         Page<Emprestimo> page = emprestimoRepository.findAllByStatus("DEVOLVIDO", paginacao);
@@ -100,7 +102,7 @@ public class EmprestimosController {
     }
 
     // listar os emprestimos ativos
-    @GetMapping("/ativos") // paginação padrão de 10 em 10 e ordenado pelo id dos empréstimos
+    @GetMapping("/ativos") // paginação padrão de 10 em 10 e ordenação por título
     public ResponseEntity<Page<Emprestimo>> listarEmprestimosAtivos(
             @PageableDefault(size = 10, sort = { "id" }) Pageable paginacao) {
         Page<Emprestimo> page = emprestimoRepository.findAllByStatus("ATIVO", paginacao);

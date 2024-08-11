@@ -1,12 +1,15 @@
 package biblioteca.gestao.api.domain.usuarios;
 
+import java.time.LocalDate;
+
 import jakarta.validation.constraints.NotNull;
 
+// DTO para atualizar os dados de um usuário
 public record DadosAtualizarUsuarios(
         @NotNull Long id,
         String nome,
         String email,
-        String data_cadastro,
+        LocalDate data_cadastro,
         String telefone) {
 
 }

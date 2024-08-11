@@ -11,27 +11,38 @@ import org.springframework.web.bind.annotation.RestController;
 import biblioteca.gestao.api.domain.emprestimos.EmprestimoRepository;
 import biblioteca.gestao.api.domain.livros.Livro;
 import biblioteca.gestao.api.domain.livros.LivroRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
+// Controller para as recomendações
 @RestController
 @RequestMapping("/recomendacoes")
+@SecurityRequirement(name = "bearer-key")
 public class RecomendacaoController {
+    // Importa os repositórios necessários
+    private EmprestimoRepository emprestimoRepository;
+    private LivroRepository livroRepository;
 
-    private final EmprestimoRepository emprestimoRepository;
-    private final LivroRepository livroRepository;
-
+    // Construtor
     public RecomendacaoController(EmprestimoRepository emprestimoRepository, LivroRepository livroRepository) {
         this.emprestimoRepository = emprestimoRepository;
         this.livroRepository = livroRepository;
     }
 
-    @GetMapping("/{usuarioId}")
-    public ResponseEntity<List<Livro>> recomendarLivros(@PathVariable Long usuarioId) {
-        List<String> categorias = emprestimoRepository.findDistinctCategoriasByUsuarioId(usuarioId);
-        if (categorias.isEmpty()) {
-            return ResponseEntity.noContent().build();
+    // Método para recomendar livros
+    @GetMapping("/{usuarioId}") 
+    public ResponseEntity<List<Livro>> recomendarLivros(@PathVariable Long usuarioId) { // Recebe o id do usuário
+        List<String> categorias = emprestimoRepository.findDistinctCategoriasByUsuarioId(usuarioId); // Busca as categorias dos livros emprestados pelo usuário
+        if (categorias.isEmpty()) { // Se o usuário não tiver emprestado nenhum livro
+            return ResponseEntity.noContent().build();// Retorna 204
         }
 
+
+        // Busca os livros recomendados
         List<Livro> livrosRecomendados = livroRepository.findLivrosParaRecomendacao(categorias, usuarioId);
-        return ResponseEntity.ok(livrosRecomendados);
+        if(livrosRecomendados.isEmpty()) { // Se não houver livros recomendados
+            return ResponseEntity.noContent().build(); // Retorna 204
+        }
+        
+        return ResponseEntity.ok(livrosRecomendados); // Retorna os livros recomendados
     }
 }

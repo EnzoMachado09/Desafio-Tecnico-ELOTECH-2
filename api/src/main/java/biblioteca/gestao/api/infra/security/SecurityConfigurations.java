@@ -27,6 +27,7 @@ public class SecurityConfigurations {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Define a política de sessão como stateless
                 .authorizeHttpRequests(req -> { // Configura as autorizações das requisições
                     req.requestMatchers("/validacao").permitAll(); // Permite todas as requisições para o endpoint /validacao
+                    req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll(); // Permite todas as requisições para a documentação
                     req.anyRequest().authenticated(); // Todas as outras requisições precisam de autenticação
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // Adiciona o meu filtro antes do filtro do spring

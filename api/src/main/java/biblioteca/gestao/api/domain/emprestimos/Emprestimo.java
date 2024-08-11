@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// Entidade que representa um emprestimo
 @Table(name = "emprestimos")
 @Entity(name = "Emprestimo")
 @Getter
@@ -43,6 +44,7 @@ public class Emprestimo {
     private LocalDate dataDevolucao;
     private String status;
 
+    // Construtor
     public Emprestimo(Usuario usuario, Livro livro, LocalDate dataEmprestimo) {
         this.usuario = usuario;
         this.livro = livro;
@@ -50,9 +52,11 @@ public class Emprestimo {
         this.status = "ATIVO";
     }
 
+    // Metodo para devolver um livro
     public void devolverLivro(LocalDate dataDevolucao) {
         this.dataDevolucao = dataDevolucao;
         this.status = "DEVOLVIDO";
     }
+
 
 }

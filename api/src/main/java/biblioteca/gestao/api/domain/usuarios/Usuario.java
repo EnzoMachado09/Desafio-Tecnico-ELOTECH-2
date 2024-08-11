@@ -1,5 +1,7 @@
 package biblioteca.gestao.api.domain.usuarios;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -14,6 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// Entidade que representa um usuario
 @Table(name = "usuarios")
 @Entity(name = "Usuario")
 @Getter
@@ -24,6 +27,7 @@ import lombok.Setter;
 
 public class Usuario {
 
+    // Construtor
     public Usuario(DadosUsuarios dados) {
         this.nome = dados.nome();
         this.email = dados.email();
@@ -37,11 +41,12 @@ public class Usuario {
     private Long id;
     private String nome;
     private String email;
-    private String data_cadastro;
+    private LocalDate data_cadastro;
     private String telefone;
     @JsonIgnore
     private boolean ativo;
 
+    // Metodo para atualizar os dados de um usuario
     public void atualizarUsuario(@Valid DadosAtualizarUsuarios dados) {
         if (dados.nome() != null) {
             this.nome = dados.nome();
@@ -60,6 +65,7 @@ public class Usuario {
         }
     }
 
+    // Metodo para excluir um usuario
     public void excluir() {
         this.ativo = false;
     }
