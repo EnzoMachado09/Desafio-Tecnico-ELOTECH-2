@@ -40,6 +40,13 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 
+## Validação
+
+A API é feita sobre uma verificação stateless, e utiliza tokens JWT para validar o usuario para as requisições.
+Para poder se validar, basta criar um usuario valido diretamente no banco de dados, passando o usuario e a senha e depois usar esses dados no metodo validação,
+que seu token sera gerado e automaticamente passado junto no corpo das suas requisições
+obs: O token tem validação de 3 horas de uso, depois tera que realizar o login novamente
+
 Substitua seu_usuario e sua_senha pelos valores apropriados para o seu banco de dados.
 
 
