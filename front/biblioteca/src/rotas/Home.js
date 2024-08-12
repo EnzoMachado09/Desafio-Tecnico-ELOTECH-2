@@ -37,9 +37,6 @@ const Lembrete = styled.p`
 
 
 function Home() {
-    const navegarParaLivros = () => {
-        // Navegação para outra parte da aplicação
-    };
 
     return (
         <AppContainer>
