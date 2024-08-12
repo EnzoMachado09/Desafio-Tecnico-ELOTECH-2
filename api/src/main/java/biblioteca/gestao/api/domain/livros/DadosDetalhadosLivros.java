@@ -8,14 +8,14 @@ public record DadosDetalhadosLivros(
         String titulo,
         String autor,
         String isbn,
-        LocalDate data_publicacao,
+        LocalDate dataPublicacao,
         String categoria) {
     public DadosDetalhadosLivros(Livro livro) {
         this(livro.getId(),
                 livro.getTitulo(),
                 livro.getAutor(),
                 livro.getIsbn(),
-                livro.getData_publicacao(),
+                livro.getDataPublicacao(),
                 livro.getCategoria());
     }
 

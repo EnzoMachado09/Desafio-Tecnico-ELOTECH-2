@@ -32,7 +32,7 @@ public class Livro {
         this.titulo = dados.titulo();
         this.autor = dados.autor();
         this.isbn = dados.isbn();
-        this.data_publicacao = dados.data_publicacao();
+        this.dataPublicacao = dados.dataPublicacao();
         this.categoria = dados.categoria();
         this.ativo = true;
     }
@@ -43,7 +43,7 @@ public class Livro {
     private String titulo;
     private String autor;
     private String isbn;
-    private LocalDate data_publicacao;
+    private LocalDate dataPublicacao;
     @JsonIgnore
     private Boolean ativo;
 
@@ -63,8 +63,8 @@ public class Livro {
             this.isbn = dados.isbn();
         }
 
-        if (dados.data_publicacao() != null) {
-            this.data_publicacao = dados.data_publicacao();
+        if (dados.dataPublicacao() != null) {
+            this.dataPublicacao = dados.dataPublicacao();
         }
 
         if (dados.categoria() != null) {

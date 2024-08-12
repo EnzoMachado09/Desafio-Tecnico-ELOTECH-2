@@ -18,7 +18,7 @@ public record DadosLivros(
         @NotNull(message = "A data de publicação do livro não pode estar em branco")
         @PastOrPresent(message = "A data de publicação do livro não pode ser futura")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") 
-        LocalDate data_publicacao,
+        LocalDate dataPublicacao,
 
         @NotNull(message = "A categoria do livro não pode ser nula") String categoria) {
 

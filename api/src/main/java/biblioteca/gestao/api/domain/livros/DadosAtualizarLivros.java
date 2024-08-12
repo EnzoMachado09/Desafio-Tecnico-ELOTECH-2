@@ -11,7 +11,7 @@ public record DadosAtualizarLivros(
                 String titulo,
                 String autor,
                 String isbn,
-                LocalDate data_publicacao,
+                LocalDate dataPublicacao,
                 String categoria) {
 
 }

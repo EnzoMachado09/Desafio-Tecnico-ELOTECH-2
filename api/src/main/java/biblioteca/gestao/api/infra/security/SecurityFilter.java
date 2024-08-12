@@ -25,6 +25,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private ValidacaoRepository repository;
 
     // Filtro para interceptar as requisições e validar o token JWT
+    @SuppressWarnings("null")
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
