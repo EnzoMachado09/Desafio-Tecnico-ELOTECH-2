@@ -20,8 +20,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import biblioteca.gestao.api.domain.livros.Livro;
-import biblioteca.gestao.api.domain.usuarios.Usuario;
+import biblioteca.gestao.api.dto.emprestimos.DadosAtualizarEmprestimo;
+import biblioteca.gestao.api.dto.emprestimos.DadosDetalhadosEmprestimo;
+import biblioteca.gestao.api.modelos.emprestimos.Emprestimo;
+import biblioteca.gestao.api.modelos.livros.Livro;
+import biblioteca.gestao.api.modelos.usuarios.Usuario;
+import biblioteca.gestao.api.repository.EmprestimoRepository;
 
 import java.time.LocalDate;
 import java.util.List;

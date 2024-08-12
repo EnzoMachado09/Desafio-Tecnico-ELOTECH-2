@@ -11,7 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import biblioteca.gestao.api.domain.validacao.ValidacaoRepository;
+import biblioteca.gestao.api.repository.ValidacaoRepository;
 
 import java.io.IOException;
 

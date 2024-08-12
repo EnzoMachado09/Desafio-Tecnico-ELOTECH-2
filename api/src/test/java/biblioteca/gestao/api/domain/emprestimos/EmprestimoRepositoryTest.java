@@ -1,9 +1,11 @@
 package biblioteca.gestao.api.domain.emprestimos;
 
-import biblioteca.gestao.api.domain.livros.DadosLivros;
-import biblioteca.gestao.api.domain.livros.Livro;
-import biblioteca.gestao.api.domain.usuarios.DadosUsuarios;
-import biblioteca.gestao.api.domain.usuarios.Usuario;
+import biblioteca.gestao.api.dto.livros.DadosLivros;
+import biblioteca.gestao.api.dto.usuarios.DadosUsuarios;
+import biblioteca.gestao.api.modelos.emprestimos.Emprestimo;
+import biblioteca.gestao.api.modelos.livros.Livro;
+import biblioteca.gestao.api.modelos.usuarios.Usuario;
+import biblioteca.gestao.api.repository.EmprestimoRepository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

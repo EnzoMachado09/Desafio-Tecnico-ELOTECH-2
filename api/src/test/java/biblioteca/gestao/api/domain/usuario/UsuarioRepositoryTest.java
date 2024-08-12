@@ -10,9 +10,9 @@ import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import biblioteca.gestao.api.domain.usuarios.DadosUsuarios;
-import biblioteca.gestao.api.domain.usuarios.Usuario;
-import biblioteca.gestao.api.domain.usuarios.UsuarioRepository;
+import biblioteca.gestao.api.dto.usuarios.DadosUsuarios;
+import biblioteca.gestao.api.modelos.usuarios.Usuario;
+import biblioteca.gestao.api.repository.UsuarioRepository;
 
 
 @DataJpaTest

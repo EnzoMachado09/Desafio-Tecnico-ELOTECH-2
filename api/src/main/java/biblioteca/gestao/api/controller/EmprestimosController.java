@@ -1,7 +1,5 @@
 package biblioteca.gestao.api.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,98 +14,55 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import biblioteca.gestao.api.domain.emprestimos.DadosAtualizarEmprestimo;
-import biblioteca.gestao.api.domain.emprestimos.DadosDetalhadosEmprestimo;
-import biblioteca.gestao.api.domain.emprestimos.DadosEmprestimos;
-import biblioteca.gestao.api.domain.emprestimos.Emprestimo;
-import biblioteca.gestao.api.domain.emprestimos.EmprestimoRepository;
-import biblioteca.gestao.api.domain.livros.Livro;
-import biblioteca.gestao.api.domain.livros.LivroRepository;
-import biblioteca.gestao.api.domain.usuarios.Usuario;
-import biblioteca.gestao.api.domain.usuarios.UsuarioRepository;
+import biblioteca.gestao.api.dto.emprestimos.DadosAtualizarEmprestimo;
+import biblioteca.gestao.api.dto.emprestimos.DadosDetalhadosEmprestimo;
+import biblioteca.gestao.api.dto.emprestimos.DadosEmprestimos;
+import biblioteca.gestao.api.modelos.emprestimos.Emprestimo;
+import biblioteca.gestao.api.servicos.EmprestimosService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 
-// Controller para os empréstimos
 @RestController
 @RequestMapping("/emprestimos")
 @SecurityRequirement(name = "bearer-key")
 public class EmprestimosController {
 
-    // Injeção de dependências
     @Autowired
-    private EmprestimoRepository emprestimoRepository;
+    private EmprestimosService emprestimosService;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private LivroRepository livroRepository;
-
-    // cadastrar um emprestimo no banco de dados
     @PostMapping
     @Transactional
     public ResponseEntity<DadosDetalhadosEmprestimo> cadastrarEmprestimo(@RequestBody DadosEmprestimos dados,
             UriComponentsBuilder uriBuilder) {
-        Usuario usuario = usuarioRepository.getReferenceById(dados.usuarioId());
-        Livro livro = livroRepository.getReferenceById(dados.livroId());
-
-        // Verifica se o livro já está emprestado
-        List<Emprestimo> emprestimosAtivos = emprestimoRepository.findAllByLivroIdAndStatus(livro.getId(), "ATIVO");
-        if (!emprestimosAtivos.isEmpty()) {
-            throw new RuntimeException("Livro já está emprestado.");
-        }
-
-        // Se o livro não estiver emprestado, cria um novo empréstimo
-        Emprestimo emprestimo = new Emprestimo(usuario, livro, dados.dataEmprestimo());
-        emprestimoRepository.save(emprestimo);
-
-        // Cria a URI para o novo empréstimo
-        var uri = uriBuilder.path("/emprestimos/{id}").buildAndExpand(emprestimo.getId()).toUri();
-
-        // retorna o status 201 Created e o novo empréstimo
-        return ResponseEntity.created(uri).body(new DadosDetalhadosEmprestimo(emprestimo));
+        DadosDetalhadosEmprestimo emprestimo = emprestimosService.cadastrarEmprestimo(dados);
+        var uri = uriBuilder.path("/emprestimos/{id}").buildAndExpand(emprestimo.id()).toUri();
+        return ResponseEntity.created(uri).body(emprestimo);
     }
 
-    // atualizar um emprestimo no banco de dados (entrega do livro)
     @PutMapping
     @Transactional
     public ResponseEntity<DadosDetalhadosEmprestimo> atualizarEmprestimo(@RequestBody DadosAtualizarEmprestimo dados) {
-        Emprestimo emprestimo = emprestimoRepository.getReferenceById(dados.id());
-        emprestimo.devolverLivro(dados.dataDevolucao());
-        emprestimoRepository.save(emprestimo);
-
-        // retorna o status 200 OK e o empréstimo atualizado
-        return ResponseEntity.ok(new DadosDetalhadosEmprestimo(emprestimo));
+        DadosDetalhadosEmprestimo emprestimo = emprestimosService.atualizarEmprestimo(dados);
+        return ResponseEntity.ok(emprestimo);
     }
 
-    // buscar um emprestimo no banco de dados pelo id
     @GetMapping("/id/{id}")
     public ResponseEntity<Emprestimo> buscarEmprestimoId(@PathVariable Long id) {
-        var busca = emprestimoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Empréstimo não encontrado."));
-
-        // retorna o status 200 OK e o empréstimo buscado
-        return ResponseEntity.ok(busca);
+        Emprestimo emprestimo = emprestimosService.buscarEmprestimoId(id);
+        return ResponseEntity.ok(emprestimo);
     }
 
-    // listar os emprestimos devolvidos
-    @GetMapping("/devolvidos") // paginação padrão de 10 em 10 e ordenação pelo id dos empréstimos
+    @GetMapping("/devolvidos")
     public ResponseEntity<Page<Emprestimo>> listarEmprestimosDevolvidos(
             @PageableDefault(size = 10, sort = { "id" }) Pageable paginacao) {
-        Page<Emprestimo> page = emprestimoRepository.findAllByStatus("DEVOLVIDO", paginacao);
-
-        // retorna o status 200 OK e a lista de empréstimos devolvidos
+        Page<Emprestimo> page = emprestimosService.listarEmprestimosPorStatus("DEVOLVIDO", paginacao);
         return ResponseEntity.ok(page);
     }
 
-    // listar os emprestimos ativos
-    @GetMapping("/ativos") // paginação padrão de 10 em 10 e ordenação por título
+    @GetMapping("/ativos")
     public ResponseEntity<Page<Emprestimo>> listarEmprestimosAtivos(
             @PageableDefault(size = 10, sort = { "id" }) Pageable paginacao) {
-        Page<Emprestimo> page = emprestimoRepository.findAllByStatus("ATIVO", paginacao);
-
-        // retorna o status 200 OK e a lista de empréstimos ativos
+        Page<Emprestimo> page = emprestimosService.listarEmprestimosPorStatus("ATIVO", paginacao);
         return ResponseEntity.ok(page);
     }
 }

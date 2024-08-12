@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.web.client.RestTemplate;
 
+import biblioteca.gestao.api.dto.googleBooks.DadosGoogleBooks;
+import biblioteca.gestao.api.servicos.GoogleBooksService;
 
 //import java.util.ArrayList;
 import java.util.HashMap;

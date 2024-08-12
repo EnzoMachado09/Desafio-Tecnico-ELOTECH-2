@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import biblioteca.gestao.api.controller.RecomendacaoController;
-import biblioteca.gestao.api.domain.emprestimos.EmprestimoRepository;
-import biblioteca.gestao.api.domain.livros.Livro;
-import biblioteca.gestao.api.domain.livros.LivroRepository;
-import biblioteca.gestao.api.domain.usuarios.Usuario;
+import biblioteca.gestao.api.modelos.livros.Livro;
+import biblioteca.gestao.api.modelos.usuarios.Usuario;
+import biblioteca.gestao.api.repository.EmprestimoRepository;
+import biblioteca.gestao.api.repository.LivroRepository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

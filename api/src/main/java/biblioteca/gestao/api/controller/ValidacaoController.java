@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import biblioteca.gestao.api.domain.validacao.DadosValidacao;
-import biblioteca.gestao.api.domain.validacao.Validacao;
+import biblioteca.gestao.api.dto.validacao.DadosValidacao;
 import biblioteca.gestao.api.infra.security.DadosTokenJWT;
 import biblioteca.gestao.api.infra.security.TokenService;
+import biblioteca.gestao.api.modelos.validacao.Validacao;
 import jakarta.validation.Valid;
 
 // Controller para a validação do login

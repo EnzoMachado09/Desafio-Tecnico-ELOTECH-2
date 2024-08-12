@@ -5,7 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
-import biblioteca.gestao.api.domain.validacao.Validacao;
+import biblioteca.gestao.api.modelos.validacao.Validacao;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

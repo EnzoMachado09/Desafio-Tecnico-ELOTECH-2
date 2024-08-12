@@ -15,11 +15,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import biblioteca.gestao.api.domain.usuarios.DadosAtualizarUsuarios;
-import biblioteca.gestao.api.domain.usuarios.DadosDetalhadosUsuarios;
-import biblioteca.gestao.api.domain.usuarios.DadosUsuarios;
-import biblioteca.gestao.api.domain.usuarios.Usuario;
-import biblioteca.gestao.api.domain.usuarios.UsuarioRepository;
+import biblioteca.gestao.api.dto.usuarios.DadosAtualizarUsuarios;
+import biblioteca.gestao.api.dto.usuarios.DadosDetalhadosUsuarios;
+import biblioteca.gestao.api.dto.usuarios.DadosUsuarios;
+import biblioteca.gestao.api.modelos.usuarios.Usuario;
+import biblioteca.gestao.api.repository.UsuarioRepository;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

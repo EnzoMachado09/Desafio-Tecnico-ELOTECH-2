@@ -25,7 +25,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 
 import biblioteca.gestao.api.controller.GoogleBooksController;
-
+import biblioteca.gestao.api.dto.googleBooks.DadosGoogleBooks;
+import biblioteca.gestao.api.servicos.GoogleBooksService;
 
 import java.util.List;
 
